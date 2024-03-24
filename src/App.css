@@ -140,8 +140,8 @@
   align-items: end;
   justify-content: start;
 
-
 }
+
 
 .answer__left {
   left: -24%;
@@ -217,4 +217,39 @@
 
 .arrow__right {
   transform: rotate(180deg);
+}
+
+.answer {
+  transition: all .6s ease-in, opacity .1s;
+}
+
+
+.answer.check {
+  align-items: center;
+  justify-content: center;
+}
+
+.answer.check .answer__text {
+  margin: 0;
+  text-align: center;
+}
+
+.answer__right.check {
+  right: 0;
+  width: 110%;
+  padding-left: calc(10% + 25px);
+  padding-right: 25px;
+}
+
+.answer__left.check {
+  left: 0;
+  width: 100%;
+  padding-left: 25px;
+  padding-right: 35px;
+
+}
+
+.answer__right.noCheck,
+.answer__left.noCheck {
+  opacity: 0;
 }

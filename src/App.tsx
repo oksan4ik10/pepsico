@@ -17,7 +17,7 @@ function App() {
             <div className="character"><img src={urlHR} alt="HR" /></div>
             <div className="question"><p className="text">Как бы ты разрешил(а)<br />конфликт в команде,<br />где ты лидер?</p></div>
             <div className="answers">
-              <div className="answer answer__left"><p className="answer__text">Брал(а) все под контроль и ставил(а) строгие рамки – как капитан корабля!</p></div>
+              <div className="answer answer__left"><p className="answer__text">Пошел туда же,<br /> куда и друзья.</p></div>
               <div className="answer answer__right"><p className="answer__text">Делали проект по учебе и не уложились в сроки из-за ошибок в планировании</p></div>
             </div>
             <div className="arrows">
