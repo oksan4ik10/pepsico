@@ -2,15 +2,16 @@
 
 import './App.css'
 
-
+import Answer from './components/Answer/Answer'
 
 function App() {
 
 
   return (
     <>
-      <div className='container'>
+      <div className="container">
 
+        <Answer></Answer>
 
       </div>
 
