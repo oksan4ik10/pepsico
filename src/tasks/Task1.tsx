@@ -26,6 +26,7 @@ function Task1(props: IProps) {
     }
 
 
+
     const closeAnswer = () => {
         changeTaskNum();
         setIsAnswer(false)
@@ -33,10 +34,9 @@ function Task1(props: IProps) {
 
     }
 
-
     return (<>
         {!isAnswer && <Task1Question taskInfo={data[taskNum]} changeSetIsSuccess={changeSetIsSuccess}></Task1Question>}
-        {isAnswer && <Answer isSuccess={isSuccess} taskInfo={data[taskNum]} changeTaskNum={changeTaskNum} closeAnswer={closeAnswer}></Answer>}
+        {isAnswer && <Answer task="task1" isSuccess={isSuccess} taskInfo={data[taskNum]} changeTaskNum={changeTaskNum} closeAnswer={closeAnswer}></Answer>}
     </>
 
     );

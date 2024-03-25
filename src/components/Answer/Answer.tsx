@@ -1,36 +1,49 @@
-import style from "./Answer.module.css"
+import { useAppSelector } from "../../store/store"
 
 import { IDataTask1 } from "../../type"
+import { dataHRTask1 } from "../../data/hrAnswerTask1"
 
-import urlIcon from "../../assets/icon-answer.svg"
-import urlPhoto from "../../assets/hr-photo.png"
+import style from "./Answer.module.css"
+
+
 import urlSuccessAnswer from "../../assets/success-answer.png"
+import urlErrorAnswer from "../../assets/error-answer.png"
 
 interface IProps {
     changeTaskNum: () => void;
     isSuccess: boolean;
     closeAnswer: () => void;
-    taskInfo: IDataTask1
+    taskInfo: IDataTask1;
+    task: "task1" | "task2"
 }
 
 
 function Answer(props: IProps) {
-    const { closeAnswer, taskInfo, isSuccess } = props;
+    const { closeAnswer, taskInfo, isSuccess, task } = props;
+
+    const numAnswer = useAppSelector((store) => store.pointsReducer).points[task];
+    const dataNumHr = isSuccess ? numAnswer.success : numAnswer.error
+    console.log(dataNumHr);
+
+    const dataHR = dataHRTask1(isSuccess, dataNumHr - 1)
+
+    console.log(dataHR);
+
     const clickNext = () => {
         closeAnswer();
     }
     return (
         <div className={style.wrapper}>
             <div className={style.content}>
-                <div className={style.photo}>
-                    <img src={urlPhoto} alt="hrPhoto" />
-                    <div className={style.photo__circle}><img src={urlIcon} alt="icon" /></div>
-                    <div className={style.photo__circle}><img src={urlIcon} alt="icon" /></div>
-                    <div className={style.photo__circle}><img src={urlIcon} alt="icon" /></div>
-                    <div className={style.photo__circle}><img src={urlIcon} alt="icon" /></div>
+                <div className={style.photo + " " + (isSuccess ? "" : style.error)}>
+                    <img src={dataHR[0]} alt="hrPhoto" />
+                    <div className={style.photo__circle}><img src={dataHR[1]} alt="icon" /></div>
+                    <div className={style.photo__circle}><img src={dataHR[1]} alt="icon" /></div>
+                    <div className={style.photo__circle}><img src={dataHR[1]} alt="icon" /></div>
+                    <div className={style.photo__circle}><img src={dataHR[1]} alt="icon" /></div>
                 </div>
                 <div className={style.answer}>
-                    <img src={urlSuccessAnswer} alt="answer" />
+                    <img src={isSuccess ? urlSuccessAnswer : urlErrorAnswer} alt="answer" />
                 </div>
                 <div className={style.text} dangerouslySetInnerHTML={isSuccess ? { __html: taskInfo.success } : { __html: taskInfo.error }}></div>
             </div>
