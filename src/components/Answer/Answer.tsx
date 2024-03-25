@@ -1,11 +1,24 @@
 import style from "./Answer.module.css"
 
+import { IDataTask1 } from "../../type"
+
 import urlIcon from "../../assets/icon-answer.svg"
 import urlPhoto from "../../assets/hr-photo.png"
 import urlSuccessAnswer from "../../assets/success-answer.png"
 
+interface IProps {
+    changeTaskNum: () => void;
+    isSuccess: boolean;
+    closeAnswer: () => void;
+    taskInfo: IDataTask1
+}
 
-function Answer() {
+
+function Answer(props: IProps) {
+    const { closeAnswer, taskInfo, isSuccess } = props;
+    const clickNext = () => {
+        closeAnswer();
+    }
     return (
         <div className={style.wrapper}>
             <div className={style.content}>
@@ -19,10 +32,10 @@ function Answer() {
                 <div className={style.answer}>
                     <img src={urlSuccessAnswer} alt="answer" />
                 </div>
-                <div className={style.text}>Слушая каждого, ты можешь<br />найти золотую середину, которая<br />сделает решение еще лучше.<br /> Постарайся в следующий раз быть<br />как детектив, который собирает<br />все улики, чтобы воссоздать<br />полную картину!</div>
+                <div className={style.text} dangerouslySetInnerHTML={isSuccess ? { __html: taskInfo.success } : { __html: taskInfo.error }}></div>
             </div>
 
-            <button className={style.btn}>Дальше</button>
+            <button className={style.btn} onClick={clickNext}>Дальше</button>
 
         </div>
     );

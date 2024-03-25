@@ -220,3 +220,7 @@
 .answer__left.noCheck {
     opacity: 0;
 }
+
+.arrows.none {
+    opacity: 0;
+}
