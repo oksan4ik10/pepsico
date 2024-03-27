@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { disablePageScroll } from 'scroll-lock';
 
 import './App.css'
 
@@ -10,6 +11,7 @@ function App() {
   const changeScreen = (n: number) => {
     setScreen(n);
   }
+  disablePageScroll()
 
   return (
     <>
