@@ -1,7 +1,8 @@
 import { useAppSelector } from "../../store/store"
 
 import { IDataTask1 } from "../../type"
-import { dataHRTask1 } from "../../data/hrAnswerTask1"
+
+import { dataHRTask } from "../../data/hrAnswerTask1";
 
 import style from "./Answer.module.css"
 
@@ -19,14 +20,14 @@ function Answer(props: IProps) {
 
     const numAnswer = useAppSelector((store) => store.pointsReducer).points[task];
     const dataNumHr = isSuccess ? numAnswer.success : numAnswer.error
-    const dataHR = dataHRTask1(isSuccess, dataNumHr - 1)
+    const dataHR = dataHRTask(isSuccess, dataNumHr - 1, task)
 
 
 
     const clickNext = () => {
         closeAnswer();
     }
-    console.log(dataHR);
+
 
     return (
         <div className={style.wrapper}>
