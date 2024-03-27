@@ -18,7 +18,10 @@
 }
 
 .wrapper::after {
-    content: url("../src/assets/GroundUp-LOGO2.png");
+    content: "";
+    width: 308px;
+    height: 312px;
+    background-image: url("../src/assets/GroundUp-LOGO2.png");
     position: absolute;
     top: -20px;
     left: -50px;

@@ -10,9 +10,6 @@ export const dataHRTask1 = (success: boolean, num: number) => {
     const data = {
         success: [
             [`                    <svg width="171.000000" height="206.000000" viewBox="0 0 171 206" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <desc>
-                Created with Pixso.
-            </desc>
             <defs>
                 <linearGradient id="paint_linear_607_1452_0" x1="82.015991" y1="79.805618" x2="82.015991" y2="94.330238" gradientUnits="userSpaceOnUse">
                     <stop stop-color="#F9BB87" />
