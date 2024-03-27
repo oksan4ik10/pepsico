@@ -23,11 +23,8 @@ function Answer(props: IProps) {
 
     const numAnswer = useAppSelector((store) => store.pointsReducer).points[task];
     const dataNumHr = isSuccess ? numAnswer.success : numAnswer.error
-    console.log(dataNumHr);
-
     const dataHR = dataHRTask1(isSuccess, dataNumHr - 1)
 
-    console.log(dataHR);
 
     const clickNext = () => {
         closeAnswer();
