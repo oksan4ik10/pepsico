@@ -13,7 +13,7 @@
 }
 
 .wrapper::after {
-    content: url("../src/assets/GroundUp-LOGO.png");
+    content: url("../../assets/GroundUp-LOGO.png");
     position: absolute;
     top: -20px;
     right: -95px;
@@ -96,6 +96,7 @@
 .answers {
     position: relative;
     height: 208px;
+    cursor: cell;
 }
 
 .answer {

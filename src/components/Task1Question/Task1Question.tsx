@@ -44,7 +44,7 @@ function Task1Question(props: IProps) {
         checkAnswer(side)
     }
 
-    let x1 = 0, x2 = 0
+    let x1 = 0, x2 = 0;
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
         x1 = e.touches[0].clientX;
     }
@@ -53,13 +53,32 @@ function Task1Question(props: IProps) {
         x2 = e.touches[0].clientX;
     }
     const endTouch = () => {
+        end()
+    }
+
+    const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
+        x1 = e.pageX;
+    }
+    const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        x2 = e.pageX;
+    }
+    const mouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
+        console.log(e);
+
+    }
+    const mouseEnd = () => {
+        end()
+    }
+
+    const end = () => {
         if (!x1 || !x2) return;
 
         const xDiff = x2 - x1;
         if (xDiff > 0) checkAnswer("left")
         else checkAnswer("right")
-
     }
+
+
 
     return (
         <div className={style.wrapper}>
@@ -67,7 +86,10 @@ function Task1Question(props: IProps) {
             <div className={style.task}>
                 <div className={style.character}><img src={urlHR} alt="HR" /></div>
                 <div className={style.question}><p className={style.text} dangerouslySetInnerHTML={{ __html: taskInfo.question }}></p></div>
-                <div className={style.answers} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}>
+                <div className={style.answers} onMouseDown={mouseStart}
+                    onMouseMove={mouseMove}
+                    onMouseOut={mouseOut}
+                    onMouseUp={mouseEnd} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}>
                     <div className={style.answer + " " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer1 }}></p></div>
                     <div className={style.answer + " " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer2 }}></p></div>
                 </div>

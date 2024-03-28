@@ -3,7 +3,8 @@ import { disablePageScroll } from 'scroll-lock';
 
 import './App.css'
 
-import Task1 from './tasks/Task1';
+import Screen2 from './screens/Screen2/Screen2';
+import Task1 from './screens/Task1';
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
     <>
       <div className="container">
 
-        {screen === 1 && <Task1 changeScreen={changeScreen} />}
+        {screen === 1 && <Screen2 changeScreen={changeScreen}></Screen2>}
+        {screen === 2 && <Task1 changeScreen={changeScreen} />}
         <button onClick={() => changeScreen(1)}>Начать</button>
 
 

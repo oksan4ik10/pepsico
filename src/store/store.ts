@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import pointsReducer from './reducer/pointsReducer';
+import sexReducer from './reducer/sexReducer';
 
 
 
 const rootReducer = combineReducers({
-    pointsReducer
+    pointsReducer,
+    sexReducer
 });
 
 export const setupStore = () => {

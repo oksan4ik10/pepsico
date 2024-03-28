@@ -1,0 +1,59 @@
+.wrapper {
+  background: var(--color-blue);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 50px;
+  position: relative;
+}
+
+.wrapper>* {
+  z-index: 2;
+}
+
+
+.wrapper::after {
+  content: url("./assets/GroundUp-LOGO.png");
+  position: absolute;
+  top: -20px;
+  left: -65px;
+  z-index: 1;
+
+}
+
+.person__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.person {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -8px;
+}
+
+.person__wrapper span {
+  display: block;
+  border: 5px solid rgb(255, 255, 255);
+  background: rgb(5, 53, 121);
+  width: 290px;
+  height: 130px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+
+}
+
+.text {
+  color: rgb(255, 255, 255);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 23px;
+  text-align: center;
+}

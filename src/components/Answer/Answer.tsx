@@ -85,7 +85,7 @@ function Answer(props: IProps) {
                 <div className={style.text} dangerouslySetInnerHTML={isSuccess ? { __html: taskInfo.success } : { __html: taskInfo.error }}></div>
             </div>
 
-            <button className={style.btn} onClick={clickNext}>Дальше</button>
+            <button className={style.btn + " " + "btn btn__btm"} onClick={clickNext}>Дальше</button>
 
         </div>
     );
