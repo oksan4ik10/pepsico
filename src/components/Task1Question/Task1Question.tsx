@@ -56,21 +56,29 @@ function Task1Question(props: IProps) {
         end()
     }
 
+    const [isStartMouse, setIsStartMouse] = useState(false);
+    const [xValue, setX] = useState(0);
     const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
         x1 = e.pageX;
+        setX(x1);
+
+        setIsStartMouse(true);
     }
     const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isStartMouse) return
         x2 = e.pageX;
     }
-    const mouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
-        console.log(e);
 
-    }
     const mouseEnd = () => {
+
+        if (!isStartMouse) return;
+        setIsStartMouse(false);
+        x1 = xValue;
         end()
     }
 
     const end = () => {
+
         if (!x1 || !x2) return;
 
         const xDiff = x2 - x1;
@@ -88,7 +96,7 @@ function Task1Question(props: IProps) {
                 <div className={style.question}><p className={style.text} dangerouslySetInnerHTML={{ __html: taskInfo.question }}></p></div>
                 <div className={style.answers} onMouseDown={mouseStart}
                     onMouseMove={mouseMove}
-                    onMouseOut={mouseOut}
+
                     onMouseUp={mouseEnd} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}>
                     <div className={style.answer + " " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer1 }}></p></div>
                     <div className={style.answer + " " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer2 }}></p></div>

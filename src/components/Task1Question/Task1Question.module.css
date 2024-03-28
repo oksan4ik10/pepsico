@@ -96,7 +96,8 @@
 .answers {
     position: relative;
     height: 208px;
-    cursor: cell;
+    cursor: grab;
+    user-select: none;
 }
 
 .answer {
