@@ -15,11 +15,9 @@
 
 .container {
   height: 100%;
-  max-width: 420px;
 
   flex: 1 0 auto;
-  min-width: 375px;
-  max-width: 600px;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -27,6 +25,7 @@
   .container {
     height: 95vh;
     border-radius: 20px;
+    max-width: 600px;
     border: 5px solid var(--color-darkBlue);
   }
 }
@@ -55,4 +54,4 @@
   bottom: 50px;
 }
 
-/* ========screen2======= */
+/* ========screen15======= */

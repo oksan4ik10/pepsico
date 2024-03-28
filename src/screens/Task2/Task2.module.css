@@ -1,0 +1,48 @@
+.task {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    --width-task: 0px;
+    user-select: none;
+    touch-action: pan-y;
+    cursor: pointer;
+    transition: all 1s;
+
+}
+
+.task img {
+    pointer-events: none;
+}
+
+.slide1,
+.slide2 {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.task {
+    transform: translate3d(var(--width-task), 0px, 0px);
+}
+
+/* reverse */
+.task.reverse {
+
+    animation: reverseTask 1s;
+    transform: translate3d(0px, 0px, 0px);
+    flex-direction: row-reverse;
+}
+
+@keyframes reverseTask {
+    0% {
+        transform: translate3d(-375px, 0px, 0px);
+
+    }
+
+    100% {
+        transform: translate3d(0px, 0px, 0px);
+    }
+}

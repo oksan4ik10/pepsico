@@ -1,0 +1,82 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+    background: #EAEFF7;
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    flex-direction: column;
+    padding: 0px 16px 80px;
+
+}
+
+.wrapper>* {
+    z-index: 2;
+}
+
+.wrapper::after {
+    content: "";
+    width: 308px;
+    height: 312px;
+    background-image: url("../../assets/GroundUp-LOGO3.png");
+    position: absolute;
+    top: -40px;
+    left: -65px;
+    z-index: 1;
+}
+
+.task__wrapper {
+    margin-top: -30px;
+}
+
+.arrows {
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 32px);
+}
+
+.arrow {
+    color: var(--color-darkBlue);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
+    height: 50px;
+}
+
+.arrow__left img {
+    transform: rotate(180deg);
+}
+
+.arrow__right {
+    display: flex;
+    justify-content: end;
+}
+
+.question {
+    margin-top: 30px;
+    background: rgb(255, 255, 255);
+    padding: 24px 28px;
+    width: 100%;
+    border: 5px solid #D3DCEA;
+}
+
+.text {
+    color: var(--color-black);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+}

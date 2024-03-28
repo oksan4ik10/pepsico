@@ -1,0 +1,25 @@
+.person__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.person {
+    position: relative;
+    z-index: 2;
+    margin-bottom: -8px;
+}
+
+.person__wrapper span {
+    display: block;
+    border: 5px solid rgb(255, 255, 255);
+    background: rgb(5, 53, 121);
+    width: 290px;
+    height: 130px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+
+}

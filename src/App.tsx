@@ -5,6 +5,10 @@ import './App.css'
 
 import Screen2 from './screens/Screen2/Screen2';
 import Task1 from './screens/Task1';
+import Task2 from './screens/Task2/Task2';
+
+
+
 
 function App() {
 
@@ -14,13 +18,16 @@ function App() {
   }
   disablePageScroll()
 
+
+
   return (
     <>
       <div className="container">
 
+        <Task2></Task2>
         {screen === 1 && <Screen2 changeScreen={changeScreen}></Screen2>}
         {screen === 2 && <Task1 changeScreen={changeScreen} />}
-        <button onClick={() => changeScreen(1)}>Начать</button>
+        {/* <button onClick={() => changeScreen(1)}>Начать</button> */}
 
 
       </div>

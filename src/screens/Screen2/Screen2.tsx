@@ -1,4 +1,4 @@
-import { getPerson } from "../../data/personSvg";
+import Persona from "../../components/Persona/Persona";
 
 import style from "./Screen2.module.css"
 
@@ -20,16 +20,9 @@ function Screen2(props: IProps) {
     }
     return (
         <div className={style.wrapper}>
-            <div className={style.person__wrapper} onClick={() => clickPerson("men")}>
-                <span></span>
-                <div className={style.person} dangerouslySetInnerHTML={{ __html: getPerson("men") }}></div>
-            </div>
-
+            <Persona sex="men" clickPerson={clickPerson}></Persona>
             <p className={style.text}>Выбери персонажа</p>
-            <div className={style.person__wrapper} onClick={() => clickPerson("woman")}>
-                <span></span>
-                <div className={style.person} dangerouslySetInnerHTML={{ __html: getPerson("woman") }}></div>
-            </div>
+            <Persona sex="woman" clickPerson={clickPerson}></Persona>
 
         </div>
 

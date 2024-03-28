@@ -10,7 +10,7 @@ interface IProps {
     changeTaskNum: () => void;
     isSuccess: boolean;
     closeAnswer: () => void;
-    taskInfo: IDataTask1;
+    taskInfo?: IDataTask1;
     task: "task1" | "task2"
 }
 
@@ -82,7 +82,7 @@ function Answer(props: IProps) {
                     }
 
                 </div>
-                <div className={style.text} dangerouslySetInnerHTML={isSuccess ? { __html: taskInfo.success } : { __html: taskInfo.error }}></div>
+                {taskInfo && <div className={style.text} dangerouslySetInnerHTML={isSuccess ? { __html: taskInfo.success } : { __html: taskInfo.error }}></div>}
             </div>
 
             <button className={style.btn + " " + "btn btn__btm"} onClick={clickNext}>Дальше</button>
