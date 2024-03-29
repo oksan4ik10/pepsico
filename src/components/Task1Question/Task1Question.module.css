@@ -73,7 +73,6 @@
     position: absolute;
     width: 10px;
     height: 8px;
-    background: red;
     top: -8px;
     left: calc(40% - 5px);
     clip-path: polygon(62% 0, 100% 0, 100% 100%, 0% 100%);

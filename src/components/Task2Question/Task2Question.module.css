@@ -70,7 +70,21 @@
     padding: 24px 28px;
     width: 100%;
     border: 5px solid #D3DCEA;
+    position: relative;
 }
+
+.question::before {
+    content: "";
+    position: absolute;
+    width: 17px;
+    height: 15px;
+    top: -20px;
+    left: 90%;
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 0% 100%);
+    background: #D3DCEA;
+    transform: scale(-1, 1);
+}
+
 
 .text {
     color: var(--color-black);
