@@ -5,10 +5,6 @@
     position: relative;
     display: grid;
     align-items: center;
-    justify-content: center;
-    justify-items: center;
-    align-content: center;
-    flex-direction: column;
     padding: 0px 16px 80px;
 
 }
@@ -31,10 +27,11 @@
 .task__wrapper {
     margin-top: 40px;
     padding-bottom: 70px;
+    cursor: grab;
 }
 
 .arrows {
-    cursor: pointer;
+
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -46,6 +43,7 @@
 }
 
 .arrow {
+    cursor: pointer;
     color: var(--color-darkBlue);
     font-size: 14px;
     font-weight: 700;

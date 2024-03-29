@@ -6,7 +6,7 @@ export interface ISex {
 }
 
 const initialState: ISex = {
-    sex: "woman"
+    sex: "men"
 };
 
 

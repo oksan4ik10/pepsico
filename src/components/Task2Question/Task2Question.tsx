@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { setPoints } from '../../store/reducer/pointsReducer';
 
@@ -32,10 +33,57 @@ const Task2Question = (props: IProps) => {
         setAnswer(s);
     }
 
+    let x1 = 0, x2 = 0;
+    const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+        x1 = e.touches[0].clientX;
+    }
+
+    const moveTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+        x2 = e.touches[0].clientX;
+    }
+    const endTouch = () => {
+        end()
+    }
+
+    const [isStartMouse, setIsStartMouse] = useState(false);
+    const [xValue, setX] = useState(0);
+    const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
+        x1 = e.pageX;
+        setX(x1);
+        setIsStartMouse(true);
+    }
+    const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isStartMouse) return
+        x2 = e.pageX;
+    }
+
+    const mouseEnd = () => {
+        if (!isStartMouse) return;
+        setIsStartMouse(false);
+        x1 = xValue;
+        end()
+    }
+
+    const end = () => {
+
+        if (!x1 || !x2) return;
+
+        const xDiff = x2 - x1;
+        if (xDiff > 0) selectAnswer("left")
+        else selectAnswer("right")
+    }
+
+
 
     return (
         <div className={style.wrapper}>
-            <div className={style.task__wrapper}>
+            <div className={style.task__wrapper}
+                onMouseDown={mouseStart}
+                onMouseMove={mouseMove}
+                onMouseUp={mouseEnd}
+                onTouchStart={startTouch}
+                onTouchMove={moveTouch}
+                onTouchEnd={endTouch}>
                 <Persona sex={sex}></Persona>
                 <div className={style.question}>
                     <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />

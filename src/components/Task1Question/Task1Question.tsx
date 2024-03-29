@@ -94,10 +94,13 @@ function Task1Question(props: IProps) {
             <div className={style.task}>
                 <div className={style.character}><img src={urlHR} alt="HR" /></div>
                 <div className={style.question}><p className={style.text} dangerouslySetInnerHTML={{ __html: taskInfo.question }}></p></div>
-                <div className={style.answers} onMouseDown={mouseStart}
+                <div className={style.answers}
+                    onMouseDown={mouseStart}
                     onMouseMove={mouseMove}
-
-                    onMouseUp={mouseEnd} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}>
+                    onMouseUp={mouseEnd}
+                    onTouchStart={startTouch}
+                    onTouchMove={moveTouch}
+                    onTouchEnd={endTouch}>
                     <div className={style.answer + " " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer1 }}></p></div>
                     <div className={style.answer + " " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer2 }}></p></div>
                 </div>
