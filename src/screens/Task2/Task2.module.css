@@ -8,8 +8,7 @@
     --width-task: 0px;
     user-select: none;
     touch-action: pan-y;
-    cursor: pointer;
-    transition: all 1s;
+    transition: all .4s;
 
 }
 
@@ -31,7 +30,7 @@
 /* reverse */
 .task.reverse {
 
-    animation: reverseTask 1s;
+    animation: reverseTask .4s;
     transform: translate3d(0px, 0px, 0px);
     flex-direction: row-reverse;
 }

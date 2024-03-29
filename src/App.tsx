@@ -24,7 +24,7 @@ function App() {
     <>
       <div className="container">
 
-        <Task2></Task2>
+        {screen === 0 && <Task2 changeScreen={changeScreen}></Task2>}
         {screen === 1 && <Screen2 changeScreen={changeScreen}></Screen2>}
         {screen === 2 && <Task1 changeScreen={changeScreen} />}
         {/* <button onClick={() => changeScreen(1)}>Начать</button> */}

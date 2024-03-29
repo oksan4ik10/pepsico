@@ -36,7 +36,7 @@ function Task1(props: IProps) {
 
     return (<>
         {!isAnswer && <Task1Question taskInfo={data[taskNum]} changeSetIsSuccess={changeSetIsSuccess}></Task1Question>}
-        {isAnswer && <Answer task="task1" isSuccess={isSuccess} taskInfo={data[taskNum]} changeTaskNum={changeTaskNum} closeAnswer={closeAnswer}></Answer>}
+        {isAnswer && <Answer task="task1" isSuccess={isSuccess} task1Info={data[taskNum]} closeAnswer={closeAnswer}></Answer>}
     </>
 
     );
