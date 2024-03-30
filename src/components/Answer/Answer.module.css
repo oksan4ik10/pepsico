@@ -63,6 +63,7 @@
     font-weight: 500;
     line-height: 20px;
     text-align: center;
+    flex-basis: 182px;
 }
 
 .text b {
@@ -83,15 +84,10 @@
     padding: 9px 45px 4px;
     outline: none;
     border: none;
-    font-family: Gotham Pro;
     font-size: 18px;
     font-weight: 500;
     line-height: 17px;
     cursor: pointer;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 50px;
 }
 
 .photo__circle {
