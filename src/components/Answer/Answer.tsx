@@ -195,9 +195,10 @@ function Answer(props: IProps) {
                 </div>
                 {task1Info && <div className={style.text + " " + (task1Info.fontSize ? style.textSmall : "")} dangerouslySetInnerHTML={isSuccess ? { __html: task1Info.success } : { __html: task1Info.error }}></div>}
                 {task2Info && <div className={style.text + " " + (task2Info.fontSize ? style.textSmall : "")} dangerouslySetInnerHTML={{ __html: task2Info.answer }}></div>}
+                <button className={style.btn + " " + "btn btn__btm"} onClick={clickNext}>Дальше</button>
             </div>
 
-            <button className={style.btn + " " + "btn btn__btm"} onClick={clickNext}>Дальше</button>
+
 
         </div>
     );
