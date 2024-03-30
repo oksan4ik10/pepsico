@@ -13,7 +13,7 @@
 }
 
 .wrapper::after {
-    content: url("../../assets/bg-screen0.png");
+    content: url("../../assets/bg-screen0.svg");
     position: absolute;
     top: -24px;
     right: -106px;

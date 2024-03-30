@@ -15,8 +15,9 @@
 
 .wrapper::after {
     content: url("../../assets/GroundUp-LOGO.svg");
+    opacity: .2;
     position: absolute;
-    top: -35px;
+    top: -15px;
     left: -65px;
 }
 
@@ -163,6 +164,7 @@
     top: auto;
     left: 0px;
     z-index: 1;
+    opacity: 1;
 }
 
 .dialog3 .dialog__btn {
