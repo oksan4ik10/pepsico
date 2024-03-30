@@ -14,7 +14,7 @@
 
 
 .wrapper::after {
-    content: url("../../assets/GroundUp-LOGO.png");
+    content: url("../../assets/GroundUp-LOGO.svg");
     position: absolute;
     top: -35px;
     left: -65px;
@@ -154,7 +154,7 @@
     display: block;
     width: 100%;
     height: 400px;
-    background-image: url("../../assets/bg-screen14.png");
+    background-image: url("../../assets/bg-screen14.svg");
     background-repeat: no-repeat;
     background-position: left bottom;
     background-size: 115%;
