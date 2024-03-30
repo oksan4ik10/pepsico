@@ -37,7 +37,7 @@
 
 @keyframes reverseTask {
     0% {
-        transform: translate3d(-375px, 0px, 0px);
+        transform: translate3d(var(--width-task), 0px, 0px);
 
     }
 
