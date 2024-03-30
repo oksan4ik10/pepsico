@@ -8,7 +8,7 @@ import Answer from "../components/Answer/Answer";
 import data from "../data/questionTask1.json"
 
 interface IProps {
-    changeScreen: (n: number) => void
+    changeScreen: () => void
 }
 
 function Task1(props: IProps) {
@@ -30,7 +30,7 @@ function Task1(props: IProps) {
     const closeAnswer = () => {
         changeTaskNum();
         setIsAnswer(false)
-        if (taskNum === 1) changeScreen(3) //условие на количество вопросов
+        if (taskNum === 1) changeScreen() //условие на количество вопросов
 
     }
 

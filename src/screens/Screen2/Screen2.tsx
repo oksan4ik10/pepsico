@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/store";
 import { setSex } from "../../store/reducer/sexReducer";
 
 interface IProps {
-    changeScreen: (n: number) => void
+    changeScreen: () => void
 }
 
 function Screen2(props: IProps) {
@@ -16,7 +16,7 @@ function Screen2(props: IProps) {
 
     const clickPerson = (sex: "men" | "woman") => {
         dispatch(setSex(sex))
-        changeScreen(2)
+        changeScreen()
     }
     return (
         <div className={style.wrapper}>

@@ -9,7 +9,7 @@ import style from "./Task2.module.css"
 
 
 interface IProps {
-    changeScreen: (screen: number) => void;
+    changeScreen: () => void;
 }
 const Task2 = (props: IProps) => {
 
@@ -28,7 +28,7 @@ const Task2 = (props: IProps) => {
         setIsReverse(false)
         setTaskNum(taskNum + 1);
         setInfoTask(data[taskNum + 1]);
-        if (taskNum === 1) changeScreen(2) //условие на количество вопросов
+        if (taskNum === 1) changeScreen() //условие на количество вопросов
 
     }
 
