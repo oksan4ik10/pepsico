@@ -17,7 +17,7 @@
     z-index: 2;
 }
 
-.wrapper::after {
+.wrapper::before {
     content: "";
     width: 308px;
     height: 312px;
