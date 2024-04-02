@@ -2,13 +2,11 @@
     width: 100%;
     height: 100%;
     position: relative;
-    display: flex;
-    align-items: start;
-    justify-content: start;
     --width-task: 0px;
     user-select: none;
     touch-action: pan-y;
     transition: all .4s;
+    position: relative;
 
 }
 
@@ -20,30 +18,21 @@
 .slide2 {
     width: 100%;
     height: 100%;
-    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
 }
 
-.task {
-    transform: translate3d(var(--width-task), 0px, 0px);
+.slide1 {
+    cursor: grab;
 }
 
-/* reverse */
-.task.reverse {
-    transition: all 0s;
-    animation: reverseTask .4s both;
-    /* transform: translate3d(0px, 0px, 0px); */
-    flex-direction: row-reverse;
-
+.slide2 {
+    z-index: 0;
 }
 
-@keyframes reverseTask {
-    0% {
-        transform: translate3d(var(--width-task), 0px, 0px);
-
-
-    }
-
-    100% {
-        transform: translate3d(0px, 0px, 0px);
-    }
+.slide1.check {
+    transition: all 1s;
 }

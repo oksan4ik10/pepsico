@@ -34,8 +34,8 @@ function Task1Question(props: IProps) {
             task: "task1",
             success: isSuccess
         }))
-        return
-        setTimeout(() => changeSetIsSuccess(isSuccess), 2000)
+
+        setTimeout(() => changeSetIsSuccess(isSuccess), 1000)
 
     }
 

@@ -78,11 +78,11 @@
 
 .btn {
     display: flex;
-    align-items: end;
+    align-items: center;
     color: var(--color-white);
     text-align: center;
     background: var(--color-darkBlue);
-    padding: 9px 45px 4px;
+    padding: 9px 0px 9px;
     outline: none;
     border: none;
     font-size: 18px;

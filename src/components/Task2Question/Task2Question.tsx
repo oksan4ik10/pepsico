@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { setPoints } from '../../store/reducer/pointsReducer';
 
@@ -9,95 +9,163 @@ import style from "./Task2Question.module.css"
 import { IDataTask2 } from '../../type';
 
 interface IProps {
-    setAnswer: (answer: "left" | "right") => void
     infoTask: IDataTask2
     changeSetIsSuccess: (n: boolean) => void
 }
 
 const Task2Question = (props: IProps) => {
-    const { setAnswer, infoTask, changeSetIsSuccess } = props;
+    const { changeSetIsSuccess, infoTask } = props;
     const sex = useAppSelector((store) => store.sexReducer).sex;
 
     const dispatch = useAppDispatch();
+    const selectAnswer = (elem: HTMLElement, s: "left" | "right") => {
 
+        const target = elem.closest(`.${style.slide1}`) as HTMLElement;
+        target.classList.add(style.check)
 
+        if (!target) return
+        if (s === "right") {
+            target.style.left = "1000px";
+            target.style.top = "-1000px";
 
-    const selectAnswer = (s: "left" | "right") => {
+        } else {
+            target.style.left = "-1000px";
+            target.style.top = "-1000px";
+        }
+
         const isSuccess = infoTask.correct2 === s;
         dispatch(setPoints({
             task: "task2",
             success: isSuccess
         }))
-        changeSetIsSuccess(isSuccess)
-
-        setAnswer(s);
+        changeSetIsSuccess(isSuccess);
     }
 
-    let x1 = 0, x2 = 0;
+    const refSlide = useRef<HTMLDivElement>(null);
+    const [targetDrag, setTargetDrag] = useState<HTMLElement | null>(null);
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
-        x1 = e.touches[0].clientX;
+        const data = e.changedTouches[0];
+        start(data.clientX, data.clientY, e.currentTarget)
     }
-
-    const moveTouch = (e: React.TouchEvent<HTMLDivElement>) => {
-        x2 = e.touches[0].clientX;
-    }
-    const endTouch = () => {
-        end()
-    }
-
     const [isStartMouse, setIsStartMouse] = useState(false);
-    const [xValue, setX] = useState(0);
     const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
-        x1 = e.pageX;
-        setX(x1);
+        start(e.pageX, e.pageY, e.currentTarget);
         setIsStartMouse(true);
+    }
+    const [diffX, setDiffX] = useState(0);
+    const moveTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+        const data = e.changedTouches[0];
+        const clientY = data.clientY;
+        const clientX = data.clientX;
+        move(clientX, clientY)
+
     }
     const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isStartMouse) return
-        x2 = e.pageX;
+        move(e.pageX, e.pageY);
     }
 
+    const endTouch = () => {
+
+        end()
+
+
+    }
     const mouseEnd = () => {
         if (!isStartMouse) return;
         setIsStartMouse(false);
-        x1 = xValue;
-        end()
+        end();
+    }
+    const mouseOut = () => {
+
+        if (!isStartMouse) return;
+        setIsStartMouse(false);
+        end();
     }
 
+    const start = (clientX: number, clientY: number, target: HTMLDivElement) => {
+        setX(clientX);
+        setY(clientY);
+
+        target.style.left = target.offsetLeft + "px";
+        target.style.top = target.offsetTop + "px";
+        setTargetDrag(target)
+    }
+
+    const move = (clientX: number, clientY: number) => {
+        const diffXMove = clientX - x;
+        const diffY = clientY - y;
+
+        if (targetDrag) {
+            const rotation = 15 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
+            const y = targetDrag.offsetTop + diffY;
+            const x = targetDrag.offsetLeft + diffXMove;
+            if ((y <= 50) && (y >= -50)) targetDrag.style.top = y + "px";
+            if ((x < 27) && (x > -28)) targetDrag.style.left = x + "px";
+            targetDrag.style.transform = `rotate(${rotation}deg)`;
+            setX(clientX);
+            setY(clientY);
+            setDiffX(diffXMove)
+        }
+
+
+    }
     const end = () => {
+        if (!targetDrag) return;
+        if ((targetDrag.offsetLeft >= -5) && (targetDrag.offsetLeft <= 5)) {
+            targetDrag.style.left = "0px";
+            targetDrag.style.top = "0px";
+            targetDrag.style.transform = `rotate(0deg)`;
+            setX(0);
+            setY(0);
+            setDiffX(0);
+            setTargetDrag(null);
+            return
+        }
 
-        if (!x1 || !x2) return;
 
-        const xDiff = x2 - x1;
-        if (xDiff > 0) selectAnswer("left")
-        else selectAnswer("right")
+        if (diffX > 0) {
+
+            selectAnswer(targetDrag, "right")
+        } else {
+
+            selectAnswer(targetDrag, "left");
+        }
     }
+
+
+
 
 
 
     return (
-        <div className={style.wrapper}>
-            <div className={style.task__wrapper}
-                onMouseDown={mouseStart}
-                onMouseMove={mouseMove}
-                onMouseUp={mouseEnd}
-                onTouchStart={startTouch}
-                onTouchMove={moveTouch}
-                onTouchEnd={endTouch}>
-                <Persona sex={sex}></Persona>
-                <div className={style.question}>
-                    <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
-                </div>
-            </div>
-            <div className={style.arrows}>
-                <div className={style.arrow + " " + style.arrow__left} onClick={() => selectAnswer("left")}>
-                    <img src={urlArrow} alt="arrow__left" />
-                    <span>Не спрашиваю</span>
+        <div className={style.slide1} ref={refSlide} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}
+            onMouseDown={mouseStart}
+            onMouseMove={mouseMove}
+            onMouseUp={mouseEnd}
+            onMouseOut={mouseOut}
 
+
+        >
+            <div className={style.wrapper}>
+                <div className={style.task__wrapper}>
+                    <Persona sex={sex}></Persona>
+                    <div className={style.question}>
+                        <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
+                    </div>
                 </div>
-                <div className={style.arrow + " " + style.arrow__right} onClick={() => selectAnswer("right")}>
-                    <span>Спрашиваю</span>
-                    <img src={urlArrow} alt="arrow__right" />
+                <div className={style.arrows}>
+                    <div className={style.arrow + " " + style.arrow__left} onClick={(e) => selectAnswer(e.target as HTMLElement, "left")}>
+                        <img src={urlArrow} alt="arrow__left" />
+                        <span>Не спрашиваю</span>
+
+                    </div>
+                    <div className={style.arrow + " " + style.arrow__right} onClick={(e) => selectAnswer(e.target as HTMLElement, "right")}>
+                        <span>Спрашиваю</span>
+                        <img src={urlArrow} alt="arrow__right" />
+                    </div>
                 </div>
             </div>
         </div>
