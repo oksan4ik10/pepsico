@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { setPoints } from "../../store/reducer/pointsReducer"
@@ -34,6 +34,7 @@ function Task1Question(props: IProps) {
             task: "task1",
             success: isSuccess
         }))
+        return
         setTimeout(() => changeSetIsSuccess(isSuccess), 2000)
 
     }
@@ -43,46 +44,94 @@ function Task1Question(props: IProps) {
         checkAnswer(side)
     }
 
-    let x1 = 0, x2 = 0;
+
+
+    const [x2, setX2] = useState(0);
+
+    const [targetDrag, setTargetDrag] = useState<HTMLElement | null>(null);
+    const containerAnswers = useRef<HTMLDivElement>(null);
+
+
+
+    const [startX, setStartX] = useState(0);
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
-        x1 = e.touches[0].clientX;
+        const xStart = e.touches[0].clientX;
+        start(xStart, e.currentTarget as HTMLElement)
+
     }
 
-    const moveTouch = (e: React.TouchEvent<HTMLDivElement>) => {
-        x2 = e.touches[0].clientX;
+    const [diffX, setDiffX] = useState(0)
+    const moveTouch = (e: React.TouchEvent<HTMLDivElement>, side: "left" | "right") => {
+        move(e.touches[0].clientX, side)
+
+
     }
-    const endTouch = () => {
-        end()
+    const endTouch = (side: "left" | "right") => {
+        end(side)
     }
 
     const [isStartMouse, setIsStartMouse] = useState(false);
-    const [xValue, setX] = useState(0);
     const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
-        x1 = e.pageX;
-        setX(x1);
+        start(e.pageX, e.currentTarget as HTMLElement);
 
         setIsStartMouse(true);
     }
-    const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const mouseMove = (e: React.MouseEvent<HTMLDivElement>, side: "left" | "right") => {
         if (!isStartMouse) return
-        x2 = e.pageX;
+        move(e.pageX, side);
     }
 
-    const mouseEnd = () => {
+    const mouseEnd = (side: "left" | "right") => {
 
         if (!isStartMouse) return;
         setIsStartMouse(false);
-        x1 = xValue;
-        end()
+        end(side);
     }
 
-    const end = () => {
+    const start = (xStart: number, target: HTMLElement) => {
+        setX2(xStart);
+        if (target) {
+            target.style.zIndex = "99";
+            const x = target.offsetLeft;
+            target.style.left = x + "px";
+            setStartX(x);
+            setTargetDrag(target);
+        }
 
-        if (!x1 || !x2) return;
+    }
 
-        const xDiff = x2 - x1;
-        if (xDiff > 0) checkAnswer("left")
-        else checkAnswer("right")
+    const move = (moveX2: number, side: "left" | "right") => {
+        const moveDiffX = x2 - moveX2;
+        if (targetDrag) {
+            const x = targetDrag.offsetLeft - (moveDiffX);
+            if (((side === "left") && ((x >= 0) || (x <= startX))) ||
+                ((side === "right") && ((x <= -35) || (x >= startX)))) return;
+            targetDrag.style.left = x + "px";
+            setX2(moveX2);
+            setDiffX(moveDiffX);
+        }
+    }
+
+    const end = (side: "left" | "right") => {
+        if (targetDrag) {
+            if ((side === "left") && (diffX < 0)) {
+                targetDrag.style.left = "0px";
+                checkAnswer(side)
+                return
+            }
+            if ((side === "right") && (diffX > 0)) {
+                checkAnswer(side);
+                targetDrag.style.left = "-35px";
+                return
+            }
+            if (side === "right") targetDrag.style.zIndex = "0";
+            targetDrag.style.left = startX + "px";
+            setTargetDrag(null);
+            setStartX(0);
+            setX2(0);
+            setDiffX(0);
+
+        }
     }
 
 
@@ -98,170 +147,170 @@ function Task1Question(props: IProps) {
                                 <rect id="Objectrs" width="90.044815" height="100.368423" transform="translate(11.732422 0.000000)" fill="white" fillOpacity="0" />
                             </clipPath>
                             <linearGradient id="paint_linear_497_678_0" x1="54.702587" y1="39.472416" x2="54.702587" y2="46.539490" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F9BB87" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F9BB87" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_680_0" x1="54.702908" y1="43.280396" x2="54.702908" y2="46.156017" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_681_0" x1="54.710892" y1="43.427029" x2="54.710892" y2="46.140018" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_682_0" x1="54.709949" y1="43.566269" x2="54.709949" y2="46.124020" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_683_0" x1="54.717930" y1="43.716808" x2="54.717930" y2="46.111927" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_684_0" x1="54.718521" y1="43.856049" x2="54.718521" y2="46.095928" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_685_0" x1="54.717579" y1="44.002258" x2="54.717579" y2="46.079506" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_686_0" x1="54.725563" y1="44.145405" x2="54.725563" y2="46.067413" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_687_0" x1="54.724621" y1="44.292038" x2="54.724621" y2="46.051414" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_688_0" x1="54.731544" y1="44.438667" x2="54.731544" y2="46.035412" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_689_0" x1="54.732224" y1="44.581814" x2="54.732224" y2="46.023319" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_690_0" x1="54.739864" y1="44.728447" x2="54.739864" y2="46.007320" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_691_0" x1="54.740444" y1="44.867268" x2="54.740444" y2="45.990902" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_730_0" x1="54.703617" y1="50.651459" x2="54.703617" y2="55.264278" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F6A57B" />
-                                <stop offset="1.000000" stop-color="#F38B67" />
+                                <stop stopColor="#F6A57B" />
+                                <stop offset="1.000000" stopColor="#F38B67" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_760_0" x1="54.702587" y1="39.472416" x2="54.702587" y2="46.539490" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F9BB87" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F9BB87" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_762_0" x1="54.702908" y1="43.280396" x2="54.702908" y2="46.156017" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_763_0" x1="54.710892" y1="43.427029" x2="54.710892" y2="46.140018" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_764_0" x1="54.709949" y1="43.566269" x2="54.709949" y2="46.124020" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_765_0" x1="54.717930" y1="43.716808" x2="54.717930" y2="46.111927" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_766_0" x1="54.718521" y1="43.856049" x2="54.718521" y2="46.095928" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_767_0" x1="54.717579" y1="44.002258" x2="54.717579" y2="46.079506" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_768_0" x1="54.725563" y1="44.145405" x2="54.725563" y2="46.067413" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_769_0" x1="54.724621" y1="44.292038" x2="54.724621" y2="46.051414" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_770_0" x1="54.731544" y1="44.438667" x2="54.731544" y2="46.035412" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_771_0" x1="54.732224" y1="44.581814" x2="54.732224" y2="46.023319" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_772_0" x1="54.739864" y1="44.728447" x2="54.739864" y2="46.007320" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_773_0" x1="54.740444" y1="44.867268" x2="54.740444" y2="45.990902" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F4A47E" />
-                                <stop offset="0.230000" stop-color="#F29A7A" />
-                                <stop offset="0.620000" stop-color="#ED8171" />
-                                <stop offset="1.000000" stop-color="#E76266" />
+                                <stop stopColor="#F4A47E" />
+                                <stop offset="0.230000" stopColor="#F29A7A" />
+                                <stop offset="0.620000" stopColor="#ED8171" />
+                                <stop offset="1.000000" stopColor="#E76266" />
                             </linearGradient>
                             <linearGradient id="paint_linear_497_812_0" x1="54.703617" y1="50.651459" x2="54.703617" y2="55.264278" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F6A57B" />
-                                <stop offset="1.000000" stop-color="#F38B67" />
+                                <stop stopColor="#F6A57B" />
+                                <stop offset="1.000000" stopColor="#F38B67" />
                             </linearGradient>
                         </defs>
                         <ellipse id="Ellipse 1" cx="56.755859" cy="74.085938" rx="56.755951" ry="25.092106" fill="#053579" fillOpacity="1.000000" />
-                        <ellipse id="Ellipse 1" cx="56.755859" cy="74.085938" rx="55.478664" ry="23.814817" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="2.554576" />
+                        <ellipse id="Ellipse 1" cx="56.755859" cy="74.085938" rx="55.478664" ry="23.814817" stroke="#FFFFFF" strokeOpacity="1.000000" strokeWidth="2.554576" />
                         <rect id="Objectrs" width="90.044815" height="100.368423" transform="translate(11.732422 0.000000)" fill="#FFFFFF" fillOpacity="0" />
-                        <g clip-path="url(#clip497_648)">
+                        <g clipPath="url(#clip497_648)">
                             <path id="Vector" d="M59.43 4.64C64.67 4.92 70.04 8.01 74.48 13.44C78.89 18.82 80.6 19.98 83.45 22.2C86.29 24.42 89.26 26.77 89.47 31.46C89.68 36.14 87.78 39.07 85.13 40.89C85.13 40.89 96.56 48.6 92.41 60.92C88.36 72.96 75.74 73.69 75.74 73.69C75.74 73.69 68.42 80.33 54.67 77.69C40.92 75.05 40.46 71.37 40.46 71.37C40.46 71.37 33.16 71.46 30.47 63.72C28.08 56.91 33.16 52.02 34.16 48.1C35.22 43.93 32.6 34.47 32.6 34.47C32.6 34.47 33.89 20.19 45.69 13.96C57.49 7.74 59.43 4.64 59.43 4.64Z" fill="#613648" fillOpacity="1.000000" fillRule="nonzero" />
                             <path id="Vector" d="M84.48 19.53Q80.47 16.42 76.6 11.7L76.6 11.7Q70.16 3.83 62.44 2.26Q61.03 1.97 59.58 1.89L57.96 1.81L57.1 3.18Q55.56 5.66 44.41 11.54Q42.18 12.71 40.26 14.28Q35.08 18.49 32.18 25.5Q30.23 30.24 29.87 34.23L29.82 34.72L29.96 35.2L29.96 35.2Q32.38 43.96 31.5 47.42Q31.28 48.27 30.07 50.59Q25.81 58.69 27.87 64.6Q27.87 64.62 27.87 64.63Q29.13 68.22 31.59 70.5Q33.22 72.02 35.38 72.96Q37.09 73.71 38.7 73.97Q41.75 78.01 54.16 80.39Q62.79 82.05 70.12 79.67Q70.73 79.48 71.33 79.25Q74.73 77.98 76.84 76.35Q80.1 75.98 83.71 74.31Q88.09 72.29 90.98 68.97Q93.62 65.93 95.01 61.8Q96.43 57.6 95.99 53.6Q95.5 49.05 92.6 44.75Q91.08 42.49 89.33 40.79Q89.96 40.05 90.45 39.22Q92.42 35.93 92.21 31.33Q92.2 31.01 92.17 30.69Q91.58 25.06 85.13 20.03Q84.91 19.86 84.48 19.53ZM87.3 42.71C86.07 41.52 85.13 40.89 85.13 40.89C85.9 40.36 86.61 39.73 87.22 39C88.71 37.21 89.62 34.78 89.47 31.46C89.26 26.77 86.29 24.42 83.45 22.2C80.6 19.98 78.89 18.82 74.48 13.44C70.04 8.01 64.67 4.92 59.43 4.64C59.43 4.64 57.49 7.74 45.69 13.96C33.89 20.19 32.6 34.47 32.6 34.47C32.6 34.47 35.22 43.93 34.16 48.1C33.87 49.26 33.21 50.51 32.5 51.87C30.81 55.09 28.79 58.93 30.47 63.72C33.16 71.46 40.46 71.37 40.46 71.37C40.46 71.37 40.92 75.05 54.67 77.69C68.42 80.33 75.74 73.69 75.74 73.69C75.74 73.69 88.36 72.96 92.41 60.92C95.38 52.12 90.39 45.67 87.3 42.71Z" fill="#FFFFFF" fillOpacity="1.000000" fillRule="evenodd" />
                             <path id="Vector" d="M78.91 73.07C85.03 70.21 86.15 63.58 79.47 58.93C72.79 54.28 71.41 49.7 71.6 44.13L34.35 43.64C34.5 45.32 34.49 46.92 34.19 48.09C33.19 52.01 28.12 56.9 30.5 63.71C33.19 71.44 40.49 71.36 40.49 71.36C40.49 71.36 40.96 75.05 54.71 77.69C68.46 80.32 75.77 73.68 75.77 73.68C75.77 73.68 77.05 73.6 78.92 73.12L78.91 73.07Z" fill="#512A3B" fillOpacity="1.000000" fillRule="nonzero" />
@@ -526,15 +575,29 @@ function Task1Question(props: IProps) {
                     </svg>
                 </div>
                 <div className={style.question}><p className={style.text} dangerouslySetInnerHTML={{ __html: taskInfo.question }}></p></div>
-                <div className={style.answers}
-                    onMouseDown={mouseStart}
-                    onMouseMove={mouseMove}
-                    onMouseUp={mouseEnd}
-                    onTouchStart={startTouch}
-                    onTouchMove={moveTouch}
-                    onTouchEnd={endTouch}>
-                    <div className={style.answer + " " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer1 }}></p></div>
-                    <div className={style.answer + " " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer2 }}></p></div>
+                <div className={style.answers} ref={containerAnswers}
+
+                >
+                    <div className={style.answer + " answer " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}
+                        onMouseDown={mouseStart}
+                        onMouseMove={(e) => mouseMove(e, "left")}
+                        onMouseUp={() => mouseEnd("left")}
+
+                        onTouchStart={startTouch}
+                        onTouchMove={(e) => moveTouch(e, "left")}
+                        onTouchEnd={() => endTouch("left")}
+
+                    ><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer1 }}></p></div>
+
+
+                    <div className={style.answer + " answer " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}
+                        onMouseDown={mouseStart}
+                        onMouseMove={(e) => mouseMove(e, "right")}
+                        onMouseUp={() => mouseEnd("right")}
+                        onTouchStart={startTouch}
+                        onTouchMove={(e) => moveTouch(e, "right")}
+                        onTouchEnd={() => endTouch("right")}
+                    ><p className={style.answer__text} dangerouslySetInnerHTML={{ __html: taskInfo.answer2 }}></p></div>
                 </div>
                 <div className={style.arrows + " " + (checkCard ? style.none : "")} >
                     < img className={style.arrow + " " + style.arrow__left} onClick={(e) => clickArrow(e, "left")} src={urlArrow} alt="arrowLeft" />

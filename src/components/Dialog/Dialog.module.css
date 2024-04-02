@@ -13,7 +13,7 @@
 
 
 
-.wrapper::after {
+.wrapper::before {
     content: url("../../assets/GroundUp-LOGO.svg");
     opacity: .2;
     position: absolute;
@@ -69,7 +69,6 @@
 .dialog__btn {
     height: 35px;
     justify-content: center;
-    padding-bottom: 5px;
     margin-top: 24px;
 
 }
@@ -150,7 +149,7 @@
     margin-top: 25px;
 }
 
-.wrapper.dialog3::after {
+.wrapper.dialog3::before {
     content: "";
     display: block;
     width: 100%;

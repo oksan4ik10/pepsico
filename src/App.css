@@ -32,7 +32,8 @@
 
 .btn {
   display: flex;
-  align-items: end;
+  align-items: center;
+  justify-content: center;
   color: var(--color-white);
   text-align: center;
   background: var(--color-darkBlue);
