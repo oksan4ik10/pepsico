@@ -8,11 +8,11 @@ import style from "./Task1Question.module.css"
 import urlArrow from "../../assets/arrow.svg"
 
 
-import { IDataTask1 } from "../../type"
+import { ITask } from "../../type"
 
 
 interface IProps {
-    taskInfo: IDataTask1;
+    taskInfo: ITask;
     changeSetIsSuccess: (n: boolean) => void
 
 }

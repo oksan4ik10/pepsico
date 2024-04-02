@@ -1,4 +1,4 @@
-export interface IDataTask1 {
+export interface ITask {
     question: string;
     answer1: string;
     answer2: string;
@@ -8,6 +8,11 @@ export interface IDataTask1 {
     success: string;
     error: string;
     fontSize?: boolean
+}
+export interface IDataTask1 {
+    woman: ITask,
+    men: ITask
+
 }
 
 export interface IDataTask2 {

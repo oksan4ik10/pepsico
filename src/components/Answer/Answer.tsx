@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../store/store"
 
-import { IDataTask1, IDataTask2 } from "../../type"
+import { IDataTask2, ITask } from "../../type"
 
 import { dataHRTask } from "../../data/hrAnswerTask1";
 
@@ -9,7 +9,7 @@ import style from "./Answer.module.css"
 interface IProps {
     isSuccess: boolean;
     closeAnswer: () => void;
-    task1Info?: IDataTask1;
+    task1Info?: ITask;
     task2Info?: IDataTask2;
     task: "task1" | "task2"
 }
