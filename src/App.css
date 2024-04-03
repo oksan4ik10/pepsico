@@ -10,7 +10,7 @@ body::after {
   height: 0;
   overflow: hidden;
   z-index: -1;
-  content: url(./assets/bg-screen14.svg);
+  content: url(./assets/bg-screen14.svg) url(./assets/GroundUp-LOGO.svg) url(./assets/GroundUp-LOGO2.svg) url(./assets/GroundUp-LOGO3.png);
 }
 
 
