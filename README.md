@@ -1,3 +1,0 @@
-# PepsiCO
-## React + TypeScript + Vite
-
