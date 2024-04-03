@@ -4,6 +4,16 @@
   box-sizing: border-box;
 }
 
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url(./assets/bg-screen14.svg);
+}
+
+
 #root {
   width: 100vw;
   height: calc(var(--vh, 1vh) * 100);

@@ -18,10 +18,9 @@
 }
 
 .wrapper::before {
-    content: "";
+    content: url("../../assets/GroundUp-LOGO2.svg");
     width: 308px;
     height: 312px;
-    background-image: url("../../assets/GroundUp-LOGO2.svg");
     background-repeat: no-repeat;
     position: absolute;
     top: -20px;
