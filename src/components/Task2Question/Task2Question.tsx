@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { setPoints } from '../../store/reducer/pointsReducer';
 
@@ -18,9 +18,11 @@ const Task2Question = (props: IProps) => {
     const sex = useAppSelector((store) => store.sexReducer).sex;
 
     const dispatch = useAppDispatch();
-    const selectAnswer = (elem: HTMLElement, s: "left" | "right") => {
 
-        const target = elem.closest(`.${style.slide1}`) as HTMLElement;
+    const selectAnswer = (s: "left" | "right") => {
+        if (!refSlide.current) return
+
+        const target = refSlide.current;
         target.classList.add(style.check)
 
         if (!target) return
@@ -47,6 +49,7 @@ const Task2Question = (props: IProps) => {
     const [y, setY] = useState(0);
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
         const data = e.changedTouches[0];
+
         start(data.clientX, data.clientY, e.currentTarget)
     }
     const [isStartMouse, setIsStartMouse] = useState(false);
@@ -86,8 +89,12 @@ const Task2Question = (props: IProps) => {
     }
 
     const start = (clientX: number, clientY: number, target: HTMLDivElement) => {
+        clearTimeout(idAnimation1.current);
+        clearTimeout(idAnimation2.current);
+        refQuestion.current?.classList.remove(style.animation)
         setX(clientX);
         setY(clientY);
+        target.style.position = "absolute";
 
         target.style.left = target.offsetLeft + "px";
         target.style.top = target.offsetTop + "px";
@@ -99,11 +106,11 @@ const Task2Question = (props: IProps) => {
         const diffY = clientY - y;
 
         if (targetDrag) {
-            const rotation = 15 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
+            const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
             const y = targetDrag.offsetTop + diffY;
             const x = targetDrag.offsetLeft + diffXMove;
-            if ((y <= 50) && (y >= -50)) targetDrag.style.top = y + "px";
-            if ((x < 27) && (x > -28)) targetDrag.style.left = x + "px";
+            if ((y <= 10) && (y >= -20)) targetDrag.style.top = y + "px";
+            if ((x < 15) && (x > -15)) targetDrag.style.left = x + "px";
             targetDrag.style.transform = `rotate(${rotation}deg)`;
             setX(clientX);
             setY(clientY);
@@ -118,22 +125,50 @@ const Task2Question = (props: IProps) => {
             targetDrag.style.left = "0px";
             targetDrag.style.top = "0px";
             targetDrag.style.transform = `rotate(0deg)`;
+            targetDrag.style.position = "relative";
             setX(0);
             setY(0);
             setDiffX(0);
             setTargetDrag(null);
+            t = true;
+            result();
             return
         }
+        t = false;
 
-
+        clearTimeout(idAnimation1.current);
+        clearTimeout(idAnimation2.current);
         if (diffX > 0) {
 
-            selectAnswer(targetDrag, "right")
+            selectAnswer("right")
         } else {
 
-            selectAnswer(targetDrag, "left");
+            selectAnswer("left");
         }
     }
+
+    const idAnimation1 = useRef(0);
+    const idAnimation2 = useRef(0);
+    let t = true;
+    const result = useCallback(() => {
+
+        if (t) {
+            t = false;
+            idAnimation1.current = setTimeout(function run() {
+                refQuestion.current?.classList.toggle(style.animation)
+                idAnimation2.current = setTimeout(run, 3000);
+            }, 3000);
+        }
+
+    }, [idAnimation1.current]
+    )
+
+    const refQuestion = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        result()
+    }, [])
+
 
 
 
@@ -141,28 +176,31 @@ const Task2Question = (props: IProps) => {
 
 
     return (
-        <div className={style.slide1} ref={refSlide} onTouchStart={startTouch} onTouchMove={moveTouch} onTouchEnd={endTouch}
-            onMouseDown={mouseStart}
-            onMouseMove={mouseMove}
-            onMouseUp={mouseEnd}
-            onMouseOut={mouseOut}
-
-
-        >
+        <div className={style.slide1} ref={refSlide}>
             <div className={style.wrapper}>
                 <div className={style.task__wrapper}>
                     <Persona sex={sex}></Persona>
-                    <div className={style.question}>
-                        <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
+                    <div style={{ position: 'relative', height: "150px", marginTop: "30px" }}>
+                        <div className={style.question} ref={refQuestion}
+                            onTouchStart={startTouch}
+                            onTouchMove={moveTouch}
+                            onTouchEnd={endTouch}
+                            onMouseDown={mouseStart}
+                            onMouseMove={mouseMove}
+                            onMouseUp={mouseEnd}
+                            onMouseOut={mouseOut}>
+                            <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
+                        </div>
                     </div>
+
                 </div>
                 <div className={style.arrows}>
-                    <div className={style.arrow + " " + style.arrow__left} onClick={(e) => selectAnswer(e.target as HTMLElement, "left")}>
+                    <div className={style.arrow + " " + style.arrow__left} onClick={() => selectAnswer("left")}>
                         <img src={urlArrow} alt="arrow__left" />
                         <span>Не спрашиваю</span>
 
                     </div>
-                    <div className={style.arrow + " " + style.arrow__right} onClick={(e) => selectAnswer(e.target as HTMLElement, "right")}>
+                    <div className={style.arrow + " " + style.arrow__right} onClick={() => selectAnswer("right")}>
                         <span>Спрашиваю</span>
                         <img src={urlArrow} alt="arrow__right" />
                     </div>
