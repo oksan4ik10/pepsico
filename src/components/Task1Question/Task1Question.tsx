@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { setPoints } from "../../store/reducer/pointsReducer"
@@ -27,6 +27,9 @@ function Task1Question(props: IProps) {
     const dispatch = useAppDispatch();
 
     const checkAnswer = (side: "left" | "right") => {
+        clearTimeout(idAnimation1.current);
+        clearTimeout(idAnimation2.current);
+        containerAnswers.current?.classList.remove(style.animation)
         if (side === "left") setCheckCard("left")
         else setCheckCard("right")
         const isSuccess = taskInfo.correct2 === side;
@@ -34,7 +37,6 @@ function Task1Question(props: IProps) {
             task: "task1",
             success: isSuccess
         }))
-
         setTimeout(() => changeSetIsSuccess(isSuccess), 1000)
 
     }
@@ -89,6 +91,9 @@ function Task1Question(props: IProps) {
     }
 
     const start = (xStart: number, target: HTMLElement) => {
+        clearTimeout(idAnimation1.current);
+        clearTimeout(idAnimation2.current);
+        containerAnswers.current?.classList.remove(style.animation)
         setX2(xStart);
         if (target) {
             target.style.zIndex = "99";
@@ -125,6 +130,8 @@ function Task1Question(props: IProps) {
                 return
             }
             if (side === "right") targetDrag.style.zIndex = "0";
+            t = true;
+            result();
             targetDrag.style.left = startX + "px";
             setTargetDrag(null);
             setStartX(0);
@@ -133,6 +140,30 @@ function Task1Question(props: IProps) {
 
         }
     }
+
+
+    const idAnimation1 = useRef(0);
+    const idAnimation2 = useRef(0);
+    let t = true;
+    const result = useCallback(() => {
+
+        if (t) {
+            t = false;
+            idAnimation1.current = setTimeout(function run() {
+                containerAnswers.current?.classList.toggle(style.animation)
+                idAnimation2.current = setTimeout(run, 3000);
+            }, 3000);
+        }
+
+    }, [idAnimation1.current]
+    )
+
+
+    useEffect(() => {
+        result()
+    }, [])
+
+
 
 
 

@@ -42,8 +42,8 @@
 }
 
 .task {
-    padding-top: 50px;
     width: 100%;
+    margin-top: -100px;
 
 
 }
@@ -107,9 +107,7 @@
     height: 100%;
     position: absolute;
     padding: 25px 0px 0px;
-    display: flex;
-    align-items: end;
-    justify-content: start;
+    position: absolute;
 
 }
 
@@ -168,19 +166,24 @@
 }
 
 .answer__left .answer__text {
-    margin-left: calc(40% + 50px);
+    position: absolute;
+    left: calc(40% + 25px);
+    bottom: 25px;
 }
 
 .answer__right .answer__text {
-    margin-right: calc(30% + 16px);
+    position: absolute;
+    right: calc(27% + 25px);
     text-align: right;
 }
 
 .arrows {
+
     padding: 65px 25px 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    display: none;
 }
 
 .arrow {
@@ -192,6 +195,7 @@
 }
 
 .answer.check {
+    display: flex;
     align-items: center;
     justify-content: center;
     transition: all .1s ease-in, opacity .1s;
@@ -202,6 +206,7 @@
     margin: 0;
     text-align: center;
     font-size: 18px;
+    position: static;
 }
 
 .answer__right.check {
@@ -228,4 +233,47 @@
 
 .arrows.none {
     opacity: 0;
+}
+
+
+.answers.animation .answer__left {
+    animation: left .8s ease-in-out;
+
+}
+
+.answers.animation .answer__right {
+    animation: right .8s ease-in-out .8s;
+
+}
+
+@keyframes left {
+    0% {
+        left: -40%;
+    }
+
+    50% {
+        left: -20%;
+    }
+
+    100% {
+        left: -40%;
+    }
+
+}
+
+@keyframes right {
+    0% {
+        left: 20%;
+        z-index: 99;
+    }
+
+    50% {
+        left: 10%;
+    }
+
+    100% {
+        left: 20%;
+        z-index: 0;
+    }
+
 }

@@ -109,7 +109,7 @@ const Task2Question = (props: IProps) => {
             const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
             const y = targetDrag.offsetTop + diffY;
             const x = targetDrag.offsetLeft + diffXMove;
-            if ((y <= 10) && (y >= -20)) targetDrag.style.top = y + "px";
+            if ((y <= 0) && (y >= -20)) targetDrag.style.top = y + "px";
             if ((x < 15) && (x > -15)) targetDrag.style.left = x + "px";
             targetDrag.style.transform = `rotate(${rotation}deg)`;
             setX(clientX);
@@ -188,7 +188,8 @@ const Task2Question = (props: IProps) => {
                             onMouseDown={mouseStart}
                             onMouseMove={mouseMove}
                             onMouseUp={mouseEnd}
-                            onMouseOut={mouseOut}>
+                            onMouseOut={mouseOut}
+                        >
                             <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
                         </div>
                     </div>
