@@ -75,6 +75,7 @@
     border: 5px solid #D3DCEA;
     position: relative;
     transform: none;
+    /* transition: transform 0.1s; */
 }
 
 .question::before {

@@ -110,7 +110,7 @@ const Task2Question = (props: IProps) => {
         const diffXMove = clientX - x;
 
         if (targetDrag) {
-            const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
+            const rotation = 30 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
             const x = targetDrag.offsetLeft + diffXMove;
             if ((x < 15) && (x > -15)) targetDrag.style.left = x + "px";
             targetDrag.style.transform = `rotate(${rotation}deg)`;
