@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/store';
-import { setPoints } from '../../store/reducer/pointsReducer';
+import { setPointsTask2 } from '../../store/reducer/pointsReducer';
 
 import Persona from '../Persona/Persona';
 import urlArrow from "../../assets/arrow2.svg"
@@ -35,9 +35,12 @@ const Task2Question = (props: IProps) => {
             target.style.top = "-1000px";
         }
 
+
+
+
         const isSuccess = infoTask.correct2 === s;
-        dispatch(setPoints({
-            task: "task2",
+        dispatch(setPointsTask2({
+            side: s,
             success: isSuccess
         }))
         changeSetIsSuccess(isSuccess);
@@ -46,28 +49,25 @@ const Task2Question = (props: IProps) => {
     const refSlide = useRef<HTMLDivElement>(null);
     const [targetDrag, setTargetDrag] = useState<HTMLElement | null>(null);
     const [x, setX] = useState(0);
-    const [y, setY] = useState(0);
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
         const data = e.changedTouches[0];
 
-        start(data.clientX, data.clientY, e.currentTarget)
+        start(data.clientX, e.currentTarget)
     }
     const [isStartMouse, setIsStartMouse] = useState(false);
     const mouseStart = (e: React.MouseEvent<HTMLDivElement>) => {
-        start(e.pageX, e.pageY, e.currentTarget);
+        start(e.pageX, e.currentTarget);
         setIsStartMouse(true);
     }
-    const [diffX, setDiffX] = useState(0);
     const moveTouch = (e: React.TouchEvent<HTMLDivElement>) => {
         const data = e.changedTouches[0];
-        const clientY = data.clientY;
         const clientX = data.clientX;
-        move(clientX, clientY)
+        move(clientX)
 
     }
     const mouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isStartMouse) return
-        move(e.pageX, e.pageY);
+        move(e.pageX);
     }
 
     const endTouch = () => {
@@ -77,23 +77,26 @@ const Task2Question = (props: IProps) => {
 
     }
     const mouseEnd = () => {
-        if (!isStartMouse) return;
-        setIsStartMouse(false);
-        end();
-    }
-    const mouseOut = () => {
 
         if (!isStartMouse) return;
         setIsStartMouse(false);
         end();
     }
+    const mouseOut = (e: React.MouseEvent<HTMLDivElement>) => {
 
-    const start = (clientX: number, clientY: number, target: HTMLDivElement) => {
+        if (!isStartMouse) return;
+
+        if (e.target === refQuestion.current) {
+            setIsStartMouse(false);
+            endFalse()
+        }
+    }
+
+    const start = (clientX: number, target: HTMLDivElement) => {
         clearTimeout(idAnimation1.current);
         clearTimeout(idAnimation2.current);
         refQuestion.current?.classList.remove(style.animation)
         setX(clientX);
-        setY(clientY);
         target.style.position = "absolute";
 
         target.style.left = target.offsetLeft + "px";
@@ -101,44 +104,47 @@ const Task2Question = (props: IProps) => {
         setTargetDrag(target)
     }
 
-    const move = (clientX: number, clientY: number) => {
+    const [rotate, setRotate] = useState(0);
+
+    const move = (clientX: number) => {
         const diffXMove = clientX - x;
-        const diffY = clientY - y;
 
         if (targetDrag) {
             const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
-            const y = targetDrag.offsetTop + diffY;
             const x = targetDrag.offsetLeft + diffXMove;
-            if ((y <= 0) && (y >= -20)) targetDrag.style.top = y + "px";
             if ((x < 15) && (x > -15)) targetDrag.style.left = x + "px";
             targetDrag.style.transform = `rotate(${rotation}deg)`;
             setX(clientX);
-            setY(clientY);
-            setDiffX(diffXMove)
+            setRotate(rotation)
+
         }
 
 
     }
+
+    const endFalse = () => {
+        if (!targetDrag) return;
+        targetDrag.style.left = "0px";
+        targetDrag.style.top = "0px";
+        targetDrag.style.transform = `rotate(0deg)`;
+        targetDrag.style.position = "relative";
+        setX(0);
+        setTargetDrag(null);
+        t = true;
+        result();
+    }
     const end = () => {
         if (!targetDrag) return;
         if ((targetDrag.offsetLeft >= -5) && (targetDrag.offsetLeft <= 5)) {
-            targetDrag.style.left = "0px";
-            targetDrag.style.top = "0px";
-            targetDrag.style.transform = `rotate(0deg)`;
-            targetDrag.style.position = "relative";
-            setX(0);
-            setY(0);
-            setDiffX(0);
-            setTargetDrag(null);
-            t = true;
-            result();
+            endFalse()
             return
         }
         t = false;
 
         clearTimeout(idAnimation1.current);
         clearTimeout(idAnimation2.current);
-        if (diffX > 0) {
+
+        if (rotate > 0) {
 
             selectAnswer("right")
         } else {
@@ -188,7 +194,7 @@ const Task2Question = (props: IProps) => {
                             onMouseDown={mouseStart}
                             onMouseMove={mouseMove}
                             onMouseUp={mouseEnd}
-                            onMouseOut={mouseOut}
+                            onMouseLeave={mouseOut}
                         >
                             <p className={style.text} dangerouslySetInnerHTML={{ __html: infoTask.question }} />
                         </div>

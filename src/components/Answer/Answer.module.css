@@ -166,3 +166,7 @@
 .photo.error .photo__circle {
     background: var(--color-red)
 }
+
+.photo.error2 .photo__circle {
+    background: var(--color-darkBlue);
+}
