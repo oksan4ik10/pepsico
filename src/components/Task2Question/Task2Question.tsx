@@ -48,7 +48,7 @@ const Task2Question = (props: IProps) => {
 
     const refSlide = useRef<HTMLDivElement>(null);
     const [targetDrag, setTargetDrag] = useState<HTMLElement | null>(null);
-    const [x, setX] = useState(0);
+
     const startTouch = (e: React.TouchEvent<HTMLDivElement>) => {
         const data = e.changedTouches[0];
 
@@ -92,46 +92,42 @@ const Task2Question = (props: IProps) => {
         }
     }
 
+    const [leftTarget, setLeftTarget] = useState(0);
     const start = (clientX: number, target: HTMLDivElement) => {
         clearTimeout(idAnimation1.current);
         clearTimeout(idAnimation2.current);
         refQuestion.current?.classList.remove(style.animation)
-        setX(clientX);
-        target.style.position = "absolute";
 
+        setLeftTarget(target.getBoundingClientRect().left);
+
+        target.style.position = "absolute";
         target.style.left = target.offsetLeft + "px";
-        target.style.top = target.offsetTop + "px";
         setTargetDrag(target)
     }
 
     const [rotate, setRotate] = useState(0);
 
     const move = (clientX: number) => {
-        const diffXMove = clientX - x;
+        if (!targetDrag) return;
 
-        if (targetDrag) {
-            const rotation = 30 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
-            const x = targetDrag.offsetLeft + diffXMove;
-            if ((x < 15) && (x > -15)) targetDrag.style.left = x + "px";
-            targetDrag.style.transform = `rotate(${rotation}deg)`;
-            setX(clientX);
-            setRotate(rotation)
-
-        }
-
-
+        const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
+        const x = clientX - leftTarget - (targetDrag.offsetWidth / 2);
+        if (x > 20) targetDrag.style.left = 20 + "px";
+        else if (x < -20) targetDrag.style.left = -20 + "px";
+        else targetDrag.style.left = x + "px";
+        targetDrag.style.transform = `rotate(${rotation}deg)`;
+        setRotate(rotation)
     }
 
     const endFalse = () => {
         if (!targetDrag) return;
-        targetDrag.style.left = "0px";
-        targetDrag.style.top = "0px";
-        targetDrag.style.transform = `rotate(0deg)`;
+        targetDrag.style.left = "auto";
+        targetDrag.style.transform = "none";
         targetDrag.style.position = "relative";
-        setX(0);
         setTargetDrag(null);
         t = true;
         result();
+        setLeftTarget(0);
     }
     const end = () => {
         if (!targetDrag) return;

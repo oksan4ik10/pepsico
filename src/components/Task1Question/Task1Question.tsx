@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/store"
-import { setPoints } from "../../store/reducer/pointsReducer"
+import { setPoints, setCountPoints } from "../../store/reducer/pointsReducer"
 
 import style from "./Task1Question.module.css"
 
@@ -20,7 +20,7 @@ interface IProps {
 function Task1Question(props: IProps) {
     const { taskInfo, changeSetIsSuccess } = props;
 
-    const successPoints = useAppSelector((store) => store.pointsReducer).successPoints;
+    const countPoints = useAppSelector((store) => store.pointsReducer).countPoints;
 
     const [checkCard, setCheckCard] = useState("");
 
@@ -37,6 +37,7 @@ function Task1Question(props: IProps) {
             task: "task1",
             success: isSuccess
         }))
+        dispatch(setCountPoints())
         setTimeout(() => changeSetIsSuccess(isSuccess), 1000)
 
     }
@@ -151,8 +152,8 @@ function Task1Question(props: IProps) {
             t = false;
             idAnimation1.current = setTimeout(function run() {
                 containerAnswers.current?.classList.toggle(style.animation)
-                idAnimation2.current = setTimeout(run, 3000);
-            }, 3000);
+                idAnimation2.current = setTimeout(run, 1500);
+            }, 1500);
         }
 
     }, [idAnimation1.current]
@@ -169,7 +170,7 @@ function Task1Question(props: IProps) {
 
     return (
         <div className={style.wrapper}>
-            <div className={style.points}>{successPoints}/9</div>
+            <div className={style.points}>{countPoints}/9</div>
             <div className={style.task}>
                 <div className={style.character}>
                     <svg width="114.000000" height="101.000000" viewBox="0 0 114 101" fill="none" xmlns="http://www.w3.org/2000/svg">

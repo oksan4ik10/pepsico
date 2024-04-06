@@ -11,6 +11,8 @@ interface IProps {
 const Dialog = (props: IProps) => {
     const { dialogNum, changeScreen } = props;
     const infoDialog = data[dialogNum];
+    console.log(dialogNum);
+
     return (
         <div className={style.wrapper + " " + style[infoDialog.classDialog]}>
             <div className={style.wrapper__container}>
@@ -20,7 +22,7 @@ const Dialog = (props: IProps) => {
                 </div>
                 <div className={style.photo}>
                     <HRDialogPhoto screen={dialogNum} />
-                    {dialogNum === 0 && <div className={style.photo__name}><span>Аня HR-менеджер</span></div>}
+                    {dialogNum !== 2 && <div className={style.photo__name}><span>Аня HR-менеджер</span></div>}
 
                 </div>
             </ div>
