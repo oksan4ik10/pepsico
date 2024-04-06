@@ -11,7 +11,6 @@ interface IProps {
 const Dialog = (props: IProps) => {
     const { dialogNum, changeScreen } = props;
     const infoDialog = data[dialogNum];
-    console.log(dialogNum);
 
     return (
         <div className={style.wrapper + " " + style[infoDialog.classDialog]}>

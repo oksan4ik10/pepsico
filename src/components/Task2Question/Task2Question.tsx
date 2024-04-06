@@ -99,9 +99,10 @@ const Task2Question = (props: IProps) => {
         refQuestion.current?.classList.remove(style.animation)
 
         setLeftTarget(target.getBoundingClientRect().left);
-
         target.style.position = "absolute";
-        target.style.left = target.offsetLeft + "px";
+        let x = target.offsetLeft - target.offsetWidth;
+        if (x < 0) x = target.offsetLeft
+        target.style.left = x + "px";
         setTargetDrag(target)
     }
 
@@ -109,6 +110,7 @@ const Task2Question = (props: IProps) => {
 
     const move = (clientX: number) => {
         if (!targetDrag) return;
+        refQuestion.current?.classList.remove(style.animation)
 
         const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
         const x = clientX - leftTarget - (targetDrag.offsetWidth / 2);
