@@ -93,7 +93,7 @@ const Task2Question = (props: IProps) => {
     }
 
     const [leftTarget, setLeftTarget] = useState(0);
-    const start = (clientX: number, target: HTMLDivElement) => {
+    const start = (_: number, target: HTMLDivElement) => {
         clearTimeout(idAnimation1.current);
         clearTimeout(idAnimation2.current);
         refQuestion.current?.classList.remove(style.animation)
