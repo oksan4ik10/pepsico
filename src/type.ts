@@ -7,7 +7,8 @@ export interface ITask {
     correct2: string;
     success: string;
     error: string;
-    fontSize?: boolean
+    fontSize?: boolean;
+    fontSizeQuestion?: boolean;
 }
 export interface IDataTask1 {
     woman: ITask,
