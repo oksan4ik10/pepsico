@@ -124,7 +124,7 @@ const Task2Question = (props: IProps) => {
     const endFalse = () => {
         if (!targetDrag) return;
         targetDrag.style.left = "auto";
-        targetDrag.style.transform = "none";
+        targetDrag.style.transform = "rotate(0deg) translateX(0px)";
         targetDrag.style.position = "relative";
         setTargetDrag(null);
         t = true;

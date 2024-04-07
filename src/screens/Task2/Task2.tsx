@@ -26,7 +26,7 @@ const Task2 = (props: IProps) => {
     const closeAnswer = () => {
         setTaskNum(taskNum + 1);
         setInfoTask(data[taskNum + 1]);
-        if (taskNum === 1) changeScreen() //условие на количество вопросов
+        if (taskNum === 10) changeScreen() //условие на количество вопросов
 
     }
 
