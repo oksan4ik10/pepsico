@@ -7,7 +7,7 @@ import data from "../../data/finalScreen.json"
 function ScreenLast() {
     const successPoints = useAppSelector((store) => store.pointsReducer).successPoints;
 
-    const winNum = successPoints === 4 ? 0 : successPoints >= 2 ? 1 : 2; //ПОМЕНЯТЬ 
+    const winNum = successPoints === 4 ? 0 : successPoints >= 6 ? 1 : 2; //ПОМЕНЯТЬ 
 
     const photos = winNum === 2 ? getFinalScreenPhoto(false) : getFinalScreenPhoto(true)
 

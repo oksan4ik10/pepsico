@@ -93,16 +93,24 @@ const Task2Question = (props: IProps) => {
     }
 
     const [leftTarget, setLeftTarget] = useState(0);
-    const start = (_: number, target: HTMLDivElement) => {
+    const start = (clientX: number, target: HTMLDivElement) => {
         clearTimeout(idAnimation1.current);
         clearTimeout(idAnimation2.current);
         refQuestion.current?.classList.remove(style.animation)
+        t = false;
 
-        setLeftTarget(target.getBoundingClientRect().left);
+        const left = target.getBoundingClientRect().left;
+
+        setLeftTarget(left);
         target.style.position = "absolute";
-        let x = target.offsetLeft - target.offsetWidth;
-        if (x < 0) x = target.offsetLeft
+
+        let x = clientX - left - (target.offsetWidth / 2);
+        if (x > 20) x = 20;
+        else if (x < -20) x = -20;
         target.style.left = x + "px";
+        const rotation = 40 * (target.offsetLeft / (target.offsetWidth / 3));
+        target.style.transform = `rotate(${rotation}deg)`;
+        setRotate(rotation)
         setTargetDrag(target)
     }
 
@@ -112,11 +120,14 @@ const Task2Question = (props: IProps) => {
         if (!targetDrag) return;
         refQuestion.current?.classList.remove(style.animation)
 
+        let x = clientX - leftTarget - (targetDrag.offsetWidth / 2);
+
+        if (x > 20) x = 20;
+        else if (x < -20) x = -20;
+
+        targetDrag.style.left = x + "px";
+
         const rotation = 40 * (targetDrag.offsetLeft / (targetDrag.offsetWidth / 3));
-        const x = clientX - leftTarget - (targetDrag.offsetWidth / 2);
-        if (x > 20) targetDrag.style.left = 20 + "px";
-        else if (x < -20) targetDrag.style.left = -20 + "px";
-        else targetDrag.style.left = x + "px";
         targetDrag.style.transform = `rotate(${rotation}deg)`;
         setRotate(rotation)
     }
@@ -137,6 +148,7 @@ const Task2Question = (props: IProps) => {
             endFalse()
             return
         }
+
         t = false;
 
         clearTimeout(idAnimation1.current);
@@ -155,10 +167,11 @@ const Task2Question = (props: IProps) => {
     const idAnimation2 = useRef(0);
     let t = true;
     const result = useCallback(() => {
-
         if (t) {
-            t = false;
+
+
             idAnimation1.current = setTimeout(function run() {
+                if (!t) return;
                 refQuestion.current?.classList.toggle(style.animation)
                 idAnimation2.current = setTimeout(run, 3000);
             }, 3000);
