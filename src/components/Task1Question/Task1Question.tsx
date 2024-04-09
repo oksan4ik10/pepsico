@@ -157,8 +157,8 @@ function Task1Question(props: IProps) {
             t = false;
             idAnimation1.current = setTimeout(function run() {
                 containerAnswers.current?.classList.toggle(style.animation)
-                idAnimation2.current = setTimeout(run, 2500);
-            }, 2500);
+                idAnimation2.current = setTimeout(run, 5000);
+            }, 5000);
         }
 
     }, [idAnimation1.current]
@@ -177,7 +177,7 @@ function Task1Question(props: IProps) {
             <div className={style.points}>{countPoints}/9</div>
             <div className={style.task}>
                 <div className={style.questionInfo}>
-                                        <div className={style.character}>
+                    <div className={style.character}>
                         <svg width="114.000000" height="101.000000" viewBox="0 0 114 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <clipPath id="clip497_648">
