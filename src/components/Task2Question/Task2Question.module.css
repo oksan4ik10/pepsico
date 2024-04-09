@@ -59,8 +59,10 @@
 }
 
 .arrow__right {
-    display: flex;
-    justify-content: end;
+    justify-self: end;
+    position: absolute;
+    right: 0px;
+
 }
 
 

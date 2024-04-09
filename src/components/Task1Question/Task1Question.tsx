@@ -157,8 +157,8 @@ function Task1Question(props: IProps) {
             t = false;
             idAnimation1.current = setTimeout(function run() {
                 containerAnswers.current?.classList.toggle(style.animation)
-                idAnimation2.current = setTimeout(run, 1500);
-            }, 1500);
+                idAnimation2.current = setTimeout(run, 2500);
+            }, 2500);
         }
 
     }, [idAnimation1.current]
@@ -172,13 +172,12 @@ function Task1Question(props: IProps) {
 
 
 
-
     return (
         <div className={style.wrapper}>
             <div className={style.points}>{countPoints}/9</div>
             <div className={style.task}>
                 <div className={style.questionInfo}>
-                    <div className={style.character}>
+                                        <div className={style.character}>
                         <svg width="114.000000" height="101.000000" viewBox="0 0 114 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <clipPath id="clip497_648">
@@ -615,7 +614,7 @@ function Task1Question(props: IProps) {
                     <div className={style.question}><p className={style.text + " " + (taskInfo.fontSizeQuestion ? style.textSmall : "")} dangerouslySetInnerHTML={{ __html: taskInfo.question }}></p></div>
 
                 </div>
-                <div className={style.answers} ref={containerAnswers}>
+                <div className={style.answers + " " + style.animation} ref={containerAnswers}>
 
                     <div className={style.answer + " answer " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}
                         onMouseDown={mouseStart}

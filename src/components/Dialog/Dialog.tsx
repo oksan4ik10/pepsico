@@ -1,3 +1,4 @@
+import { useAppSelector } from "../../store/store";
 import HRDialogPhoto from "../../data/HRDialogPhoto";
 import data from "../../data/hrDialogText.json"
 
@@ -10,7 +11,8 @@ interface IProps {
 
 const Dialog = (props: IProps) => {
     const { dialogNum, changeScreen } = props;
-    const infoDialog = data[dialogNum];
+    const sex = useAppSelector((store) => store.sexReducer).sex;
+    const infoDialog = sex === "woman" ? data[dialogNum] : dialogNum === 2 ? data[3] : data[dialogNum];
 
     return (
         <div className={style.wrapper + " " + style[infoDialog.classDialog]}>

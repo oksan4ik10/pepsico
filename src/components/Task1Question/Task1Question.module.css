@@ -251,12 +251,12 @@
 
 
 .answers.animation .answer__left {
-    animation: left .8s ease-in-out;
+    animation: left .8s ease-in-out 1s;
 
 }
 
 .answers.animation .answer__right {
-    animation: right .8s ease-in-out .8s;
+    animation: right .8s ease-in-out 1.8s;
 
 }
 
