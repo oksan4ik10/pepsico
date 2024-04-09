@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/store"
-import { setPoints, setCountPoints } from "../../store/reducer/pointsReducer"
+import { setPoints } from "../../store/reducer/pointsReducer"
 
 import style from "./Task1Question.module.css"
 
@@ -19,7 +19,7 @@ interface IProps {
 function Task1Question(props: IProps) {
     const { taskInfo, changeSetIsSuccess } = props;
 
-    const countPoints = useAppSelector((store) => store.pointsReducer).countPoints;
+    const countPoints = useAppSelector((store) => store.pointsReducer).countPointsTask1;
 
     const [checkCard, setCheckCard] = useState("");
 
@@ -44,7 +44,7 @@ function Task1Question(props: IProps) {
             task: "task1",
             success: isSuccess
         }))
-        dispatch(setCountPoints())
+
 
         setTimeout(() => changeSetIsSuccess(isSuccess), 1000)
 

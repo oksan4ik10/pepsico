@@ -133,3 +133,18 @@
 .slide1.check {
     transition: all 1s;
 }
+
+.points {
+    color: var(--color-darkBlue);
+    font-family: Noto Sans;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 99%;
+    letter-spacing: 0%;
+    text-align: left;
+    justify-self: start;
+    align-self: start;
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}

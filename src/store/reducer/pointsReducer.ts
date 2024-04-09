@@ -7,7 +7,8 @@ export interface IPoints {
         task2: { success: number, error: number, error2: number }
     };
     successPoints: number;
-    countPoints: number;
+    countPointsTask1: number;
+    countPointsTask2: number;
 }
 
 const initialState: IPoints = {
@@ -16,7 +17,8 @@ const initialState: IPoints = {
         task2: { success: 0, error: 0, error2: 0 }
     },
     successPoints: 0,
-    countPoints: 0
+    countPointsTask1: 0,
+    countPointsTask2: 0
 };
 
 interface ISetPoints {
@@ -39,7 +41,8 @@ export const pointsSlice = createSlice({
             let task = state.points[action.payload.task];
             task = { success: task.success + successCheck, error: task.error + errorCheck, error2: 0 };
             state.points["task1"] = task
-            if (action.payload.success) state.successPoints += 1
+            if (action.payload.success) state.successPoints += 1;
+            state.countPointsTask1++;
         },
         setPointsTask2(state, action: PayloadAction<ISetPointsTask2>) {
             const successCheck = action.payload.success ? 1 : 0;
@@ -48,14 +51,12 @@ export const pointsSlice = createSlice({
             let task = state.points["task2"];
             task = { success: task.success + successCheck, error: task.error + error1Check, error2: task.error2 + error2Check };
             state.points["task2"] = task
-            if (action.payload.success) state.successPoints += 1
+            if (action.payload.success) state.successPoints += 1;
+            state.countPointsTask2++;
 
         },
-        setCountPoints(state) {
-            state.countPoints++;
-        }
     },
 });
 
 export default pointsSlice.reducer;
-export const { setPoints, setPointsTask2, setCountPoints } = pointsSlice.actions;
+export const { setPoints, setPointsTask2 } = pointsSlice.actions;

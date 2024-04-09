@@ -169,11 +169,3 @@
 .dialog3 .dialog__btn {
     margin-top: 12px;
 }
-
-.dialog2 .wrapper__container {
-    bottom: -25px;
-}
-
-.dialog2 .photo__name {
-    bottom: 25px;
-}
