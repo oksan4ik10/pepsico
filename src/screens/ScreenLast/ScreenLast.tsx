@@ -30,7 +30,7 @@ function ScreenLast() {
                 <div className={style.main__text} dangerouslySetInnerHTML={{ __html: dataScreen.text }}>
 
                 </div>
-                <a href="https://groundupcareer.ru/" target="_blank" className={style.main__link + " btn"}>Хочу на стажировку</a>
+                <a href="https://groundupcareer.ru/" target="_blank" className={style.main__link + " btn"}>Откликнуться</a>
             </div>
 
         </div>

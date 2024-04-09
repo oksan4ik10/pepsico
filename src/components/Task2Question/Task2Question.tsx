@@ -18,6 +18,11 @@ const Task2Question = (props: IProps) => {
     const sex = useAppSelector((store) => store.sexReducer).sex;
     const countPoints = useAppSelector((store) => store.pointsReducer).countPointsTask2;
 
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        setCount(countPoints + 1);
+    }, [])
+
     const dispatch = useAppDispatch();
 
     const selectAnswer = (s: "left" | "right") => {
@@ -196,7 +201,7 @@ const Task2Question = (props: IProps) => {
     return (
         <div className={style.slide1} ref={refSlide}>
             <div className={style.wrapper}>
-                <div className={style.points}>{countPoints}/11</div>
+                <div className={style.points}>{count}/11</div>
                 <div className={style.task__wrapper}>
                     <Persona sex={sex}></Persona>
                     <div style={{ position: 'relative', height: "150px", marginTop: "30px" }}>

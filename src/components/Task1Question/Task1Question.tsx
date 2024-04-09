@@ -21,6 +21,13 @@ function Task1Question(props: IProps) {
 
     const countPoints = useAppSelector((store) => store.pointsReducer).countPointsTask1;
 
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        setCount(countPoints + 1);
+    }, [])
+
+
+
     const [checkCard, setCheckCard] = useState("");
 
     const dispatch = useAppDispatch();
@@ -125,23 +132,25 @@ function Task1Question(props: IProps) {
 
     const end = (side: "left" | "right") => {
         if (targetDrag) {
+            setTargetDrag(null);
+            setStartX(0);
+            setX2(0);
             if ((side === "left") && (diffX < 0)) {
                 targetDrag.style.left = "0px";
                 checkAnswer(side)
+                setDiffX(0);
                 return
             }
             if ((side === "right") && (diffX > 0)) {
                 checkAnswer(side);
                 targetDrag.style.left = "-35px";
+                setDiffX(0);
                 return
             }
             if (side === "right") targetDrag.style.zIndex = "0";
             t = true;
             result();
             targetDrag.style.left = startX + "px";
-            setTargetDrag(null);
-            setStartX(0);
-            setX2(0);
             setDiffX(0);
 
         }
@@ -174,7 +183,7 @@ function Task1Question(props: IProps) {
 
     return (
         <div className={style.wrapper}>
-            <div className={style.points}>{countPoints}/9</div>
+            <div className={style.points}>{count}/9</div>
             <div className={style.task}>
                 <div className={style.questionInfo}>
                     <div className={style.character}>
