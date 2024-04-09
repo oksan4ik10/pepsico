@@ -43,8 +43,8 @@
 
 .task {
     width: 100%;
-    margin-top: -40px;
-    height: 520px;
+    margin-top: -50px;
+    height: 530px;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
