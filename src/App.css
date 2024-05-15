@@ -21,6 +21,7 @@ body::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgb(234, 239, 247);
 }
 
 .container {
