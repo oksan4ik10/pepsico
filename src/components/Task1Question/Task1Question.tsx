@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from "react"
+import { useRef, useState, useEffect, useCallback, MouseEvent } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { setPoints } from "../../store/reducer/pointsReducer"
@@ -102,6 +102,10 @@ function Task1Question(props: IProps) {
         setIsStartMouse(false);
         end(side);
     }
+    const mouseOut = (e: MouseEvent, side: "left" | "right") => {
+        if (!isStartMouse) return;
+        if (e.target === targetDrag) end(side);
+    }
 
     const start = (xStart: number, target: HTMLElement) => {
         clearTimeout(idAnimation1.current);
@@ -129,6 +133,8 @@ function Task1Question(props: IProps) {
             setDiffX(moveDiffX);
         }
     }
+
+
 
     const end = (side: "left" | "right") => {
         if (targetDrag) {
@@ -628,7 +634,10 @@ function Task1Question(props: IProps) {
                     <div className={style.answer + " answer " + style.answer__left + " " + (checkCard === "left" ? style.check : checkCard === "right" ? style.noCheck : "")}
                         onMouseDown={mouseStart}
                         onMouseMove={(e) => mouseMove(e, "left")}
+                        onMouseOut={(e) => mouseOut(e, "left")}
                         onMouseUp={() => mouseEnd("left")}
+
+
 
                         onTouchStart={startTouch}
                         onTouchMove={(e) => moveTouch(e, "left")}
@@ -640,7 +649,9 @@ function Task1Question(props: IProps) {
                     <div className={style.answer + " answer " + style.answer__right + " " + (checkCard === "right" ? style.check : checkCard === "left" ? style.noCheck : "")}
                         onMouseDown={mouseStart}
                         onMouseMove={(e) => mouseMove(e, "right")}
+                        onMouseOut={(e) => mouseOut(e, "right")}
                         onMouseUp={() => mouseEnd("right")}
+
                         onTouchStart={startTouch}
                         onTouchMove={(e) => moveTouch(e, "right")}
                         onTouchEnd={() => endTouch("right")}
