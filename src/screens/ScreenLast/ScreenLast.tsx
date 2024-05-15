@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../store/store";
+import ym from 'react-yandex-metrika';
 
 import style from "./ScreenLast.module.css"
 
@@ -12,6 +13,10 @@ function ScreenLast() {
     const photos = winNum === 2 ? getFinalScreenPhoto(false) : getFinalScreenPhoto(true)
 
     const dataScreen = data[winNum];
+    const clickLink = () => {
+        ym('reachGoal', 'click')
+
+    }
 
     return (
         <div className={style.wrapper + " " + style[dataScreen.classError]}>
@@ -30,7 +35,7 @@ function ScreenLast() {
                 <div className={style.main__text} dangerouslySetInnerHTML={{ __html: dataScreen.text }}>
 
                 </div>
-                <a href="https://groundupcareer.ru/" target="_blank" className={style.main__link + " btn"}>Откликнуться</a>
+                <a href="https://groundupcareer.ru/" target="_blank" className={style.main__link + " btn"} onClick={clickLink}>Откликнуться</a>
             </div>
 
         </div>

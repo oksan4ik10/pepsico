@@ -1,9 +1,15 @@
+import ym from 'react-yandex-metrika';
 import style from "./Screen0.module.css"
+
 interface IProps {
     changeScreen: () => void;
 }
 function Screen0(props: IProps) {
     const { changeScreen } = props;
+    const startGame = () => {
+        ym('reachGoal', 'start')
+        changeScreen()
+    }
     return <div className={style.wrapper}>
         <main className={style.main}>
             <div className={style.main__heading}>
@@ -20,7 +26,7 @@ function Screen0(props: IProps) {
             <p className={style.main__text}>
                 Собеседование — это всегда<br />волнительно. Но что, если у тебя<br />есть возможность заранее узнать<br />вопросы и подготовиться?<br />Эта игра — тренажёр собеседования<br />в крупную FMCG компанию!<br />Постарайся подобрать подходящие<br />ответы и замэтчиться с HR!
             </p>
-            <button className={style.main__btn + " btn"} onClick={() => changeScreen()}>Играть</button>
+            <button className={style.main__btn + " btn"} onClick={startGame}>Играть</button>
 
 
         </main>

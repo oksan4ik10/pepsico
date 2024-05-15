@@ -9,6 +9,8 @@ import './index.css'
 import { resize } from './resize.ts'
 resize();
 
+
+
 const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

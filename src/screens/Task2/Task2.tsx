@@ -1,3 +1,5 @@
+
+import ym from 'react-yandex-metrika';
 import { useState } from "react";
 
 import Answer from "../../components/Answer/Answer";
@@ -26,7 +28,11 @@ const Task2 = (props: IProps) => {
     const closeAnswer = () => {
         setTaskNum(taskNum + 1);
         setInfoTask(data[taskNum + 1]);
-        if (taskNum === 10) changeScreen() //условие на количество вопросов
+        if (taskNum === 10) {
+            console.log("finish");
+            ym('reachGoal', 'finish')
+            changeScreen()
+        } //условие на количество вопросов
 
     }
 
